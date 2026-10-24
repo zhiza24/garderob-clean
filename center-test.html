@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Что в центре твоего мира</title>
+<style>
+:root { --bg:#0f1419; --card:#1a1f26; --accent:#3b82f6; --text:#e8edf3; --muted:#8b97a8; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); }
+.container { max-width:640px; margin:0 auto; padding:20px; }
+h1 { font-size:22px; margin:0 0 8px; }
+.sub { color:var(--muted); font-size:14px; margin-bottom:24px; }
+.card { background:var(--card); border-radius:12px; padding:16px; margin-bottom:16px; }
+.q { font-weight:600; margin-bottom:12px; }
+.options { display:flex; flex-direction:column; gap:8px; }
+.opt { background:#232a33; border:1px solid #2e3744; border-radius:8px; padding:12px; cursor:pointer; transition:0.15s; }
+.opt:hover, .opt.selected { border-color:var(--accent); background:#1e3a5f; }
+.btn { width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:10px; font-weight:600; font-size:16px; cursor:pointer; margin-top:8px; }
+.btn:disabled { opacity:0.5; cursor:not-allowed; }
+.result { display:none; }
+.bar { height:8px; background:#2e3744; border-radius:4px; margin:6px 0 16px; overflow:hidden; }
+.bar > div { height:100%; background:var(--accent); }
+.center-score { font-size:28px; font-weight:700; color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Что стоит в центре твоего мира</h1>
+  <div class="sub">Отвечай так, как ты реально поступаешь, а не как «правильно». Вопросы намеренно обходные.</div>
+
+  <div id="quiz"></div>
+  <button class="btn" id="next" disabled>Далее</button>
+
+  <div class="result" id="result">
+    <div class="card">
+      <div>Насколько ты в центре своего мира</div>
+      <div class="center-score" id="score">0%</div>
+      <div class="bar"><div id="bar"></div></div>
+      <div id="interp"></div>
+    </div>
+    <div class="card" id="details"></div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Друг просит помочь с переездом в единственный свободный вечер, который ты уже планировал провести в одиночестве. Ты:",
+    opts: [
+      { t: "Соглашаюсь, потом как-нибудь отдохну", s: 0 },
+      { t: "Говорю, что занят, но чувствую вину весь вечер", s: 1 },
+      { t: "Честно говорю, что этот вечер нужен мне, и предлагаю другой день", s: 2 },
+      { t: "Отказываю без долгих объяснений", s: 2 }
+    ]
+  },
+  {
+    q: "В компании все выбирают ресторан, который тебе не нравится. Ты:",
+    opts: [
+      { t: "Молчу и иду", s: 0 },
+      { t: "Говорю, что не против, хотя против", s: 0 },
+      { t: "Предлагаю альтернативу и спокойно отстаиваю", s: 2 },
+      { t: "Иду, но внутри злюсь на себя", s: 1 }
+    ]
+  },
+  {
+    q: "Тебе предлагают работу/проект, который выгоден по деньгам, но сильно против твоих ценностей. Первая реакция:",
+    opts: [
+      { t: "Беру, деньги важнее", s: 0 },
+      { t: "Долго сомневаюсь и в итоге соглашаюсь", s: 1 },
+      { t: "Сразу отказываю", s: 2 },
+      { t: "Беру, но потом сильно жалею", s: 0 }
+    ]
+  },
+  {
+    q: "Кто-то перебивает тебя в разговоре и продолжает свою мысль. Ты обычно:",
+    opts: [
+      { t: "Замолкаю и слушаю", s: 0 },
+      { t: "Жду паузы и осторожно возвращаюсь", s: 1 },
+      { t: "Спокойно говорю «я ещё не закончил(а)»", s: 2 },
+      { t: "Внутри обижаюсь, но внешне улыбаюсь", s: 0 }
+    ]
+  },
+  {
+    q: "Ты очень устал(а), а близкий человек хочет поговорить «прямо сейчас». Ты:",
+    opts: [
+      { t: "Остаюсь и слушаю, хотя сил нет", s: 0 },
+      { t: "Говорю, что устал(а), но всё равно остаюсь", s: 1 },
+      { t: "Честно говорю, что сейчас не могу, и предлагаю время", s: 2 },
+      { t: "Ухожу, чувствуя себя виноватым", s: 1 }
+    ]
+  },
+  {
+    q: "Представь: ты можешь сделать только одно. Что выбираешь?",
+    opts: [
+      { t: "Чтобы окружающие были довольны мной", s: 0 },
+      { t: "Чтобы не было конфликтов", s: 0 },
+      { t: "Чтобы я сам(а) был(а) согласен(на) со своим выбором", s: 2 },
+      { t: "Чтобы потом не жалеть", s: 2 }
+    ]
+  },
+  {
+    q: "Когда ты в последний раз отказал(а) в чём-то важном для другого ради себя — что ты чувствовал(а) после?",
+    opts: [
+      { t: "Сильную вину и желание извиниться", s: 0 },
+      { t: "Облегчение, но с осадком", s: 1 },
+      { t: "Спокойствие", s: 2 },
+      { t: "Почти никогда так не делаю", s: 0 }
+    ]
+  }
+];
+
+let current = 0;
+let answers = [];
+
+function render() {
+  const q = questions[current];
+  document.getElementById('quiz').innerHTML = `
+    <div class="card">
+      <div class="q">${current+1}. ${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o,i) => `<div class="opt" data-i="${i}">${o.t}</div>`).join('')}
+      </div>
+    </div>`;
+  document.querySelectorAll('.opt').forEach(el => {
+    el.onclick = () => {
+      document.querySelectorAll('.opt').forEach(x => x.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('next').disabled = false;
+    };
+  });
+  document.getElementById('next').disabled = true;
+  document.getElementById('next').textContent = current === questions.length-1 ? 'Показать результат' : 'Далее';
+}
+
+document.getElementById('next').onclick = () => {
+  const sel = document.querySelector('.opt.selected');
+  if (!sel) return;
+  answers.push(questions[current].opts[+sel.dataset.i].s);
+  current++;
+  if (current < questions.length) render();
+  else showResult();
+};
+
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('next').style.display = 'none';
+  const max = questions.length * 2;
+  const sum = answers.reduce((a,b)=>a+b,0);
+  const pct = Math.round((sum / max) * 100);
+  document.getElementById('score').textContent = pct + '%';
+  document.getElementById('bar').style.width = pct + '%';
+
+  let text = '';
+  if (pct < 35) text = 'В центре твоего мира сейчас в основном другие люди и их комфорт. Ты часто предаёшь свой выбор, чтобы оставаться удобным. Это не «добродетель», а автоматическая стратегия, которая стоит тебе энергии и собственных решений.';
+  else if (pct < 65) text = 'Ты частично в центре, но часто откатываешься в режим «лишь бы не конфликтовать / лишь бы одобрили». Есть моменты, когда ты выбираешь себя, но вина или привычка быстро возвращают старую схему.';
+  else text = 'Ты уже умеешь ставить себя в центр достаточно часто. Решения проходят через «что я выбираю», а не только через «как бы не расстроить». Это рабочая позиция.';
+
+  document.getElementById('interp').textContent = text;
+
+  const tips = pct < 65 ? `
+    <strong>Как начать занимать центр:</strong><br><br>
+    1. Перед ответом «да» на просьбу — пауза 10 секунд и вопрос себе: «Если бы никто не узнал и не обиделся, я бы согласился?»<br><br>
+    2. Отработать одну маленькую границу в день (отказ в мелочи без длинных оправданий).<br><br>
+    3. Замечать момент, когда появляется вина после своего выбора — и не бежать её «исправлять» сразу.
+  ` : 'Продолжай замечать моменты, где старая привычка «быть удобным» ещё включается, и мягко возвращай выбор себе.';
+
+  document.getElementById('details').innerHTML = tips;
+  document.getElementById('result').style.display = 'block';
+}
+
+render();
+</script>
+</body>
+</html>
