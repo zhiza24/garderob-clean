@@ -1,333 +1,107 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Конструктор гардеробной ТИТАН GS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0f1419;
-  --panel: #1a1f26;
-  --card: #232a33;
-  --border: #2e3744;
-  --text: #e8edf3;
-  --muted: #8b97a8;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --danger: #ef4444;
-  --success: #22c55e;
-  --radius: 12px;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Inter, system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  height: 100vh;
-  overflow: hidden;
-}
-#app {
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  height: 100vh;
-}
-@media (max-width: 900px) {
-  #app { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
-  #panel { max-height: 48vh; overflow-y: auto; }
-}
-#viewWrap {
-  position: relative;
-  background: #0b0e13;
-}
-#view {
-  width: 100%;
-  height: 100%;
-}
-#topbar {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  z-index: 10;
-}
-.stepper {
-  display: flex;
-  background: var(--card);
-  border-radius: 999px;
-  padding: 4px;
-  border: 1px solid var(--border);
-}
-.stepper button {
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-}
-.stepper button.active {
-  background: var(--accent);
-  color: white;
-}
-.icon-btn {
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--text);
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.icon-btn:hover { background: #2a3340; }
-#panel {
-  background: var(--panel);
-  border-left: 1px solid var(--border);
-  padding: 16px;
-  overflow-y: auto;
-}
-.panel-section { display: none; }
-.panel-section.active { display: block; }
-h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
-.group { margin-bottom: 18px; }
-.group label {
-  display: block;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chips button {
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  cursor: pointer;
-}
-.chips button.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-select, input[type="number"], input[type="text"] {
-  width: 100%;
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-.btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 8px;
-}
-.btn-primary { background: var(--accent); color: white; }
-.btn-primary:hover { background: var(--accent-hover); }
-.btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
-.hint {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 6px;
-  line-height: 1.4;
-}
-.warning {
-  background: #3b2a1a;
-  border: 1px solid #7c5a2e;
-  color: #fbbf24;
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  margin: 10px 0;
-}
-.float-actions {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  display: flex;
-  gap: 8px;
-  z-index: 5;
-}
-#msg {
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1f2937;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  display: none;
-  z-index: 20;
-}
-</style>
-</head>
-<body>
+<!doctype html><html lang="ru"><head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<link rel="icon" href="data:,"><title>Конструктор гардеробной ТИТАН GS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@400;500;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=c1"><link rel="stylesheet" href="clean.css?v=c1">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<div id="topbar"><div class="seg" id="szV"></div><button id="mirrorBtn" title="Отзеркалить всю конструкцию">⇄<span class="mtx"> Зеркально</span></button><button id="fxBtn" class="snd" title="Эффект" aria-label="Эффект"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="2.6"/></svg></button><button id="lensBtn" class="snd" title="Камера: Обычная" aria-label="Камера"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle class="l2" cx="12" cy="12" r="4"/><path class="l3" d="M12 4v3M12 17v3M4 12h3M17 12h3"/></svg></button><button id="sndBtn" class="snd" title="Звук" aria-label="Звук"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.8a7.4 7.4 0 0 1 0 10.4"/><path class="mx" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button><button id="moreBtn" title="Сохранить, загрузить, ссылка, шаблоны, снимки">⋯</button>
+<div id="morePop" class="hide"><button id="saveBtn">💾 Сохранить</button><button id="loadBtn">📂 Загрузить</button><button id="shareBtn">🔗 Ссылка на конфигурацию</button><button id="tplBtn">★ Шаблоны</button><button id="pngTop">📷 Красивый снимок</button><button id="wbTop">🖼 Снимок WB 3:4</button>
+<div id="tplPop" class="hide"><div class="btns"><button id="tplSave" class="acc">Сохранить как шаблон</button></div><div id="myTpl" class="sum"></div></div></div></div>
+<div id="msg"></div>
 <div id="app">
-  <div id="viewWrap">
-    <div id="topbar">
-      <div class="stepper" id="stepper">
-        <button data-step="0" class="active">1. Каркас</button>
-        <button data-step="1">2. Наполнение</button>
-        <button data-step="2">3. Оформление</button>
-        <button data-step="3">4. Готово</button>
-      </div>
-      <div style="flex:1"></div>
-      <button class="icon-btn" id="undoBtn" title="Отменить">↶</button>
-      <button class="icon-btn" id="redoBtn" title="Повторить">↷</button>
-      <button class="icon-btn" id="moreBtn" title="Ещё">⋯</button>
-    </div>
-    <div id="view"></div>
-    <div id="msg"></div>
-    <div class="float-actions">
-      <button class="icon-btn" id="niceBtn" title="Красивый ракурс">✨</button>
-      <button class="icon-btn" id="dimBtn" title="Размеры">📐</button>
-    </div>
-  </div>
-
-  <div id="panel">
-    <div class="panel-section active" data-step="0">
-      <h3>Каркас</h3>
-      <div class="group">
-        <label>Цвет системы</label>
-        <div class="chips" id="sysC">
-          <button data-sc="white" class="active">Белый</button>
-          <button data-sc="black">Чёрный</button>
-          <button data-sc="silver">Металлик</button>
-        </div>
-      </div>
-      <div class="group">
-        <label>Цвет штанг</label>
-        <div class="chips" id="rodCC">
-          <button data-rc="chrome" class="active">Хром</button>
-          <button data-rc="white">Белый</button>
-          <button data-rc="black">Чёрный</button>
-        </div>
-      </div>
-      <div class="group">
-        <label>Тип гардеробной</label>
-        <select id="layout">
-          <option value="straight">Прямая (одна стена)</option>
-          <option value="L">Угловая, угол слева</option>
-          <option value="Lr">Угловая, угол справа</option>
-          <option value="U">П-образная</option>
-        </select>
-      </div>
-      <div class="group">
-        <label>Ширина конструкции, см</label>
-        <div class="chips" id="widthChips">
-          <button data-w="60">60</button>
-          <button data-w="90">90</button>
-          <button data-w="120" class="active">120</button>
-          <button data-w="150">150</button>
-          <button data-w="180">180</button>
-          <button data-w="240">240</button>
-        </div>
-        <div class="hint">Можно выбрать свой размер в настройках секций.</div>
-      </div>
-      <div class="group">
-        <label>Высота стоек, см</label>
-        <div class="chips" id="heightChips">
-          <button data-h="102">102</button>
-          <button data-h="154" class="active">154</button>
-          <button data-h="192">192</button>
-          <button data-h="230">230</button>
-        </div>
-      </div>
-      <div class="group">
-        <label>Подъём от пола, см</label>
-        <input type="number" id="lift" value="20" min="0" max="60">
-        <div class="hint">20 см — стандарт для обувной полки снизу.</div>
-      </div>
-      <div id="collisionWarning" class="warning" style="display:none;">
-        Секции пересекаются. Сдвиньте стены или уменьшите ширину.
-      </div>
-      <button class="btn btn-primary" onclick="goStep(1)">Далее: Наполнение →</button>
-    </div>
-
-    <div class="panel-section" data-step="1">
-      <h3>Наполнение</h3>
-      <div class="hint" style="margin-bottom:12px;">
-        Нажмите на секцию в 3D-модели, чтобы добавить полки, штанги или корзины. Тяните элементы вверх/вниз для изменения высоты.
-      </div>
-      <div id="secPanel"></div>
-      <button class="btn btn-secondary" onclick="goStep(0)">← Назад</button>
-      <button class="btn btn-primary" onclick="goStep(2)">Далее: Оформление →</button>
-    </div>
-
-    <div class="panel-section" data-step="2">
-      <h3>Оформление</h3>
-      <div class="group">
-        <label>Цвет стен</label>
-        <div class="chips">
-          <button class="active">Светлые</button>
-          <button>Тёмные</button>
-          <button>Бетон</button>
-        </div>
-      </div>
-      <div class="group">
-        <label>Пол</label>
-        <div class="chips">
-          <button class="active">Дуб</button>
-          <button>Ламинат</button>
-          <button>Бетон</button>
-        </div>
-      </div>
-      <button class="btn btn-secondary" onclick="goStep(1)">← Назад</button>
-      <button class="btn btn-primary" onclick="goStep(3)">Далее: Готово →</button>
-    </div>
-
-    <div class="panel-section" data-step="3">
-      <h3>Готово</h3>
-      <div class="hint">Конфигурация готова. Можно сохранить, сделать снимок или получить спецификацию.</div>
-      <button class="btn btn-primary" id="saveBtn">Сохранить проект</button>
-      <button class="btn btn-secondary" id="shareBtn">Скопировать ссылку</button>
-      <button class="btn btn-secondary" id="snapBtn">Красивый снимок</button>
-      <button class="btn btn-secondary" onclick="goStep(2)">← Назад</button>
-    </div>
-  </div>
+<div id="viewWrap"><div id="photoBg"></div><div id="view"></div>
+<div id="hint">Мышь: левая кнопка — поворот и высота, правая — сдвиг, колесо — масштаб. Палец: поворот, двумя — сдвиг и масштаб. Нажмите на полку, затем тяните ее вверх или вниз</div>
+<div id="dragTip" class="hide"></div><div id="dragTipL" class="hide"></div>
+<div id="postPop" class="hide"></div>
+<div id="dimPop" class="hide"></div>
+<div id="wallsPop" class="hide"></div>
+<div id="floatBar"><button id="delBtn" class="rnd hide" title="Удалить выбранный элемент">🗑</button><button id="undoBtn" class="rnd" title="Отменить (Ctrl+Z)">↶</button><button id="redoBtn" class="rnd" title="Повторить (Ctrl+Y)">↷</button><button id="niceBtn" class="acc">✨ Ракурс</button><button id="dimBtn">Размеры ▾</button><button id="wallsBtn">Стены ▾</button><button id="resetBtn" class="danger">Сброс</button><button id="camBtn" class="rnd" title="Снимок 3:4, 1800 × 2400" aria-label="Снимок"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3v11H4z"/><circle cx="12" cy="13.3" r="3.6"/></svg></button></div>
 </div>
-
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
-</script>
-<script type="module" src="app.js"></script>
-<script>
-function goStep(n) {
-  document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
-  document.querySelector(`.panel-section[data-step="${n}"]`).classList.add('active');
-  document.querySelectorAll('.stepper button').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.stepper button[data-step="${n}"]`).classList.add('active');
-}
-document.querySelectorAll('.stepper button').forEach(btn => {
-  btn.addEventListener('click', () => goStep(+btn.dataset.step));
-});
-function showMsg(text) {
-  const m = document.getElementById('msg');
-  m.textContent = text;
-  m.style.display = 'block';
-  setTimeout(() => m.style.display = 'none', 2500);
-}
-</script>
-</body>
-</html>
+<div id="panel">
+<div class="grp"><h3>1. Каркас</h3>
+<div class="szlab">Цвет системы</div><div class="chips" id="sysC"><button data-sc="white">Белый</button><button data-sc="black">Черный</button><button data-sc="silver">Металлик</button></div>
+<div class="szlab">Цвет штанг</div><div class="chips" id="rodCC"><button data-rc="chrome">Хром</button><button data-rc="white">Белый</button><button data-rc="black">Черный</button></div>
+<div class="szlab">С чего начать</div><div class="chips"><button data-start="l23">Стандарт угловая</button><button data-start="p3">Стандарт прямая</button><button data-start="zero">С нуля</button></div>
+<label>Тип гардеробной<select id="layout"></select></label>
+<div id="wallSz"></div><div class="hide"><input type="range" id="rW" min="40" max="720"><input type="number" id="fW"><div id="szW"></div><div id="szN"></div><span id="szWnote"></span><div id="ownW"></div></div>
+<div class="szlab">Ширина секций, см <span class="foot">(полки 463 / 603 / 903 / 1203 мм)</span></div><div class="sz" id="szS"></div>
+<div class="own hide" id="ownS"><input type="range" id="rS" min="20" max="200" step="1"><input type="number" id="fS" min="20" max="200" step="1"></div>
+<div id="posGap"></div>
+<div class="szlab gapT">Поднять секции от пола (низ стоек): <b id="liftV"></b> см</div><span class="rng"><input type="range" id="lift" min="0" max="150" step="1"><i class="mark" style="left:calc(20 / 150 * (100% - 18px) + 9px)"></i></span><p class="foot"><i class="mark inl"></i> 20 см - стандарт: снизу помещается обувная полка</p>
+<div class="szlab">Высота стоек, см</div><div class="sz" id="szH"></div>
+<div class="own hide" id="ownH"><input type="range" id="rH" min="50" max="300" step="1"><input type="number" id="fH" min="50" max="300" step="1"></div>
+<div class="row2"><label class="chk"><input type="checkbox" id="ceilT"> Потолок</label><label>Высота потолка: <b id="ceilV"></b> см<input type="range" id="ceilH" min="220" max="400" step="1"></label></div>
+<div id="angBox1" class="angbox"></div>
+<div class="szlab">Глубина полок и корзин, см</div><div class="sz" id="szD"></div>
+<div class="hide"><input id="nSec" type="number"><select id="allW"><option value="">—</option></select><select id="setTpl"><option value=""></option></select><select id="postH"><option>512</option><option>1025</option><option>1156</option><option>1536</option><option>1920</option><option>2304</option><option value="custom">custom</option></select><input type="number" id="postHc"><input type="number" id="railTop"><select id="viewMode"><option value="all">Все</option><option value="frame">frame</option><option value="fill">fill</option></select><input type="number" id="fD"><input type="range" id="rD" min="30" max="50" step="10"><select id="bStyle"><option value="mesh">mesh</option><option value="plastic">plastic</option></select><select id="preset"><option value="warm">warm</option><option value="none">none</option></select><input type="checkbox" id="decor"><input type="checkbox" id="sunT"></div>
+</div>
+<div class="grp"><h3>2. Наполнение</h3><div id="posGap2"></div><div id="secTabs"></div><div id="secEdit"></div>
+<p class="foot">Стойки и верхняя направляющая ставятся автоматически. Нажмите на секцию в 3D, чтобы открыть ее наполнение.</p></div>
+<div class="grp" id="viewGrp"><h3>3. Оформление</h3>
+<div class="wtabs" id="decoTabs"><button data-dt="room">Комната</button><button data-dt="studio">Студия</button></div>
+<div id="angBox2" class="angbox"></div>
+<div id="posGap3" class="gaprow"></div>
+<div class="swrow"><div><div class="szlab">Цвет системы</div><div class="sws" id="metalSw"></div></div><div><div class="szlab">Цвет штанги</div><div class="sws" id="rodSw"></div></div></div>
+<div class="sub light"><h4>Свет и тени</h4><div class="szlab">Тень</div><div class="sz" id="shPBtns"></div><label>Свет из окна<select id="winL"><option value="off">Выкл</option><option value="wall">На стену</option><option value="floor">На пол</option><option value="both">Оба</option></select></label><div class="szlab">Блики на металле</div><div class="sz" id="glMBtns"></div></div>
+<div class="row2 hide"><label>Цвет системы<select id="metal"><option value="white">Белый металлик (RAL 9016)</option><option value="silver">Серебристый (RAL 9006)</option><option value="black">Черный (RAL 9005)</option></select></label><label>Цвет штанги<select id="rodC"><option value="chrome">Хром металлик</option><option value="white">Белая</option><option value="black">Черный</option></select></label></div>
+<div id="dRoom">
+<div class="szlab">Цвет стен</div><div id="wallPick"></div><input type="color" id="wall" class="hide">
+<div class="szlab">Отделка стен</div><div class="sz" id="finBtns"></div><div class="tiles" id="finVars"></div><select id="wallFin" class="hide"><option value="paint">Краска</option><option value="plaster">Штукатурка</option><option value="paper">Обои</option></select>
+<div class="szlab">Пол</div><div class="tiles fl" id="floorBtns"></div><select id="floor" class="hide"><option value="oak">Паркет</option><option value="lam">Светлый ламинат</option><option value="lamD">Темный ламинат</option><option value="conc">Керамогранит бетон</option><option value="marble">Керамогранит мрамор</option><option value="carpet">Ковролин</option></select>
+<div class="row2 skp"><label class="chk"><input type="checkbox" id="skirtT"> Плинтус на полу</label><label class="clr">Цвет<input type="color" id="skirtC"></label></div>
+<div class="row2 skp"><label class="chk"><input type="checkbox" id="cornT"> Плинтус на потолке</label><label class="clr">Цвет<input type="color" id="cornC"></label></div>
+<label>Высота потолка: <b id="ceilV2"></b> см<input type="range" id="ceilH2" min="230" max="400" step="1"></label>
+<div class="szlab">Ковер</div><div id="rugBox"></div><button id="rugBtn" class="hide"></button><p class="foot" id="rugNote"></p>
+<div class="szlab">Окно и дверь</div><div class="sz" id="openBtns"></div><label id="winXL">Сдвиг окна, см: <b id="winXV"></b><input type="range" id="winX" min="-100" max="200" step="1"></label>
+<div class="szlab">Растения, зеркало, пуф</div><div class="sz" id="plantBtns"></div><div id="plantList"></div><p class="foot">Растение, зеркало и пуф можно передвигать пальцем по полу.</p>
+<div class="szlab">Вещи на полках и штангах</div><div class="sz" id="propBtns"></div><p class="foot">Вещь встает на выбранную полку или штангу. Ее можно двигать пальцем вдоль полки и удалить кнопкой 🗑.</p>
+<label class="chk"><input type="checkbox" id="lampT"> Точечные светильники в потолке</label>
+<div class="hide"><h4>Тень от гардеробной</h4><label class="chk"><input type="checkbox" id="shOnT"> Показывать тень</label>
+<label>Направление: <b id="shAngV"></b><input type="range" id="shAng" min="-35" max="35" step="1"></label>
+<label>Угол света (ближе / дальше): <b id="shDistV"></b><input type="range" id="shDist" min="0" max="1" step="0.05"></label>
+<label>Мягкость: <b id="shBlurV"></b><input type="range" id="shBlur" min="1" max="8" step="1"></label>
+<label>Сила: <b id="shadowV"></b><input type="range" id="shadow" min="0" max="0.8" step="0.05"></label></div>
+<div class="sub"><h4>Комната</h4>
+<label class="hide">Мягкий блик от окна<select id="glowS"><option value="none">Нет</option><option value="left">Слева</option><option value="right">Справа</option></select></label>
+<label class="hide">Блики: <b id="glareV"></b><input type="range" id="glare" min="0" max="1" step="0.05"></label>
+<div class="hide"><b id="angV"></b><input type="range" id="angR" min="90" max="115" step="1"></div>
+<label class="hide">Ширина комнаты: <b id="roomV"></b><input type="range" id="roomX" min="0" max="400" step="1"></label></div>
+</div>
+<div id="dStudio" class="hide"><p class="foot">Стены, пол и потолок скрыты. Гардеробная стоит на чистом однотонном фоне с мягкой тенью.</p><div class="szlab">Цвет фона</div><div id="bgPick"></div></div>
+</div>
+<div class="grp"><h3>4. Готово</h3><div id="toolsDock"><div class="tools"><button data-cam="nice">Красивый ракурс</button><button data-cam="front">Спереди</button><button data-cam="iso">3D</button><button data-cam="top">Сверху</button><button data-cam="card">Карточка</button></div></div>
+<div class="btns"><button id="pngBtn" class="acc">Красивый снимок</button><button id="wbBtn" class="acc">Снимок WB 3:4</button></div><div id="summary" class="sum"></div>
+<details id="catBox"><summary><b>Каталог комплектующих</b></summary><div id="catalog"></div><p class="foot">Данные берутся из файла catalog.js. «уточнить» — значение еще не внесено.</p></details></div>
+<div class="grp"><h3>Карточка для маркетплейса 900×1200</h3>
+<label>Шрифт<select id="cFont"><option value="manrope">Manrope (современный, по умолчанию)</option><option value="montserrat">Montserrat</option><option value="inter">Inter</option><option value="playfair">Playfair Display + Manrope (элегантный)</option></select></label>
+<label class="chk"><input type="checkbox" id="cTOn"> Заголовок</label><input type="text" id="cTitle">
+<div class="row2"><label>Размер габаритов<input type="range" id="cSSize" min="24" max="60" step="1"></label><label>Цвет габаритов<input type="color" id="cSColor"></label></div>
+<div class="row2"><label>Размер заголовка<input type="range" id="cTSize" min="36" max="96" step="1"></label><label>Цвет текста<input type="color" id="cTColor"></label></div>
+<label>Сдвиг заголовка вниз<input type="range" id="cTY" min="0" max="200" step="1"></label>
+<label class="chk"><input type="checkbox" id="cSOn"> Габариты</label><input type="text" id="cSize">
+<label class="chk"><input type="checkbox" id="cPOn"> Панель «КОМПЛЕКТАЦИЯ»</label><textarea id="cPanel" rows="5"></textarea>
+<div class="row2"><label>Цвет плашки<input type="color" id="cPColor"></label><label>Прозрачность<input type="range" id="cPOp" min="0" max="1" step="0.05"></label></div>
+<label>Плашка по X (−1 = авто)<input type="range" id="cPX" min="-1" max="1" step="0.01"></label>
+<label>Плашка по Y (−1 = авто)<input type="range" id="cPY" min="-1" max="1" step="0.01"></label>
+<label>Ширина плашки, px (0 = авто)<input type="range" id="cPW" min="0" max="820" step="10"></label>
+<label>Размер плашки<input type="range" id="cPScale" min="0.7" max="1.5" step="0.05"></label>
+<label class="chk"><input type="checkbox" id="cPFit"> Автоподбор размера текста в плашке</label>
+<label>Положение панели<select id="cPos"><option value="auto">Авто (не закрывать гардеробную)</option><option value="tl">Сверху слева</option><option value="tr">Сверху справа</option><option value="bl">Снизу слева</option><option value="br">Снизу справа</option><option value="cr">Справа по центру</option></select></label>
+<label class="chk"><input type="checkbox" id="cNOn"> Нижняя надпись (последняя строка крупно)</label><textarea id="cNote" rows="2"></textarea>
+<label class="chk"><input type="checkbox" id="cDims"> Размерные линии на карточке</label>
+<div class="btns"><button id="cAuto">Заполнить из спецификации</button><button id="cardBtn" class="acc">Скачать карточку</button></div></div>
+<div class="grp" id="photoGrp"><h3>Фото стены клиента</h3>
+<label class="file">Загрузить фото<input type="file" id="photo" accept="image/*"></label>
+<div id="photoCtl" class="hide">
+<label>Сдвиг влево / вправо<input type="range" id="mx" min="-3" max="3" step="0.01" value="0"></label>
+<label>Сдвиг вверх / вниз<input type="range" id="my" min="-2" max="2" step="0.01" value="0"></label>
+<label>Масштаб<input type="range" id="ms" min="0.3" max="3" step="0.01" value="1"></label>
+<label>Поворот<input type="range" id="mr" min="-60" max="60" step="1" value="0"></label>
+<label class="chk"><input type="checkbox" id="showRoom"> Показывать стену и пол</label>
+<button id="photoOff">Убрать фото</button></div>
+</div>
+<p class="foot">Размеры элементов взяты из каталога ТИТАН GS 2024. Визуализация ориентировочная.</p>
+</div></div>
+<script type="module" src="app.js?v=c1"></script>
+</body></html>

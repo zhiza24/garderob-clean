@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Конструктор гардеробной ТИТАН GS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1419;
+  --panel: #1a1f26;
+  --card: #232a33;
+  --border: #2e3744;
+  --text: #e8edf3;
+  --muted: #8b97a8;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --radius: 12px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+}
+#app {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  height: 100vh;
+}
+@media (max-width: 900px) {
+  #app { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  #panel { max-height: 48vh; overflow-y: auto; }
+}
+#viewWrap {
+  position: relative;
+  background: #0b0e13;
+}
+#view {
+  width: 100%;
+  height: 100%;
+}
+#topbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 10;
+}
+.stepper {
+  display: flex;
+  background: var(--card);
+  border-radius: 999px;
+  padding: 4px;
+  border: 1px solid var(--border);
+}
+.stepper button {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.stepper button.active {
+  background: var(--accent);
+  color: white;
+}
+.icon-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-btn:hover { background: #2a3340; }
+#panel {
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  padding: 16px;
+  overflow-y: auto;
+}
+.panel-section { display: none; }
+.panel-section.active { display: block; }
+h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
+.group { margin-bottom: 18px; }
+.group label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.chips button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+select, input[type="number"], input[type="text"] {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.warning {
+  background: #3b2a1a;
+  border: 1px solid #7c5a2e;
+  color: #fbbf24;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin: 10px 0;
+}
+.float-actions {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+#msg {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+  z-index: 20;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="viewWrap">
+    <div id="topbar">
+      <div class="stepper" id="stepper">
+        <button data-step="0" class="active">1. Каркас</button>
+        <button data-step="1">2. Наполнение</button>
+        <button data-step="2">3. Оформление</button>
+        <button data-step="3">4. Готово</button>
+      </div>
+      <div style="flex:1"></div>
+      <button class="icon-btn" id="undoBtn" title="Отменить">↶</button>
+      <button class="icon-btn" id="redoBtn" title="Повторить">↷</button>
+      <button class="icon-btn" id="moreBtn" title="Ещё">⋯</button>
+    </div>
+    <div id="view"></div>
+    <div id="msg"></div>
+    <div class="float-actions">
+      <button class="icon-btn" id="niceBtn" title="Красивый ракурс">✨</button>
+      <button class="icon-btn" id="dimBtn" title="Размеры">📐</button>
+    </div>
+  </div>
+
+  <div id="panel">
+    <div class="panel-section active" data-step="0">
+      <h3>Каркас</h3>
+      <div class="group">
+        <label>Цвет системы</label>
+        <div class="chips" id="sysC">
+          <button data-sc="white" class="active">Белый</button>
+          <button data-sc="black">Чёрный</button>
+          <button data-sc="silver">Металлик</button>
+        </div>
+      </div>
+      <div class="group">
+        <label>Цвет штанг</label>
+        <div class="chips" id="rodCC">
+          <button data-rc="chrome" class="active">Хром</button>
+          <button data-rc="white">Белый</button>
+          <button data-rc="black">Чёрный</button>
+        </div>
+      </div>
+      <div class="group">
+        <label>Тип гардеробной</label>
+        <select id="layout">
+          <option value="straight">Прямая (одна стена)</option>
+          <option value="L">Угловая, угол слева</option>
+          <option value="Lr">Угловая, угол справа</option>
+          <option value="U">П-образная</option>
+        </select>
+      </div>
+      <div class="group">
+        <label>Ширина конструкции, см</label>
+        <div class="chips" id="widthChips">
+          <button data-w="60">60</button>
+          <button data-w="90">90</button>
+          <button data-w="120" class="active">120</button>
+          <button data-w="150">150</button>
+          <button data-w="180">180</button>
+          <button data-w="240">240</button>
+        </div>
+        <div class="hint">Можно выбрать свой размер в настройках секций.</div>
+      </div>
+      <div class="group">
+        <label>Высота стоек, см</label>
+        <div class="chips" id="heightChips">
+          <button data-h="102">102</button>
+          <button data-h="154" class="active">154</button>
+          <button data-h="192">192</button>
+          <button data-h="230">230</button>
+        </div>
+      </div>
+      <div class="group">
+        <label>Подъём от пола, см</label>
+        <input type="number" id="lift" value="20" min="0" max="60">
+        <div class="hint">20 см — стандарт для обувной полки снизу.</div>
+      </div>
+      <div id="collisionWarning" class="warning" style="display:none;">
+        Секции пересекаются. Сдвиньте стены или уменьшите ширину.
+      </div>
+      <button class="btn btn-primary" onclick="goStep(1)">Далее: Наполнение →</button>
+    </div>
+
+    <div class="panel-section" data-step="1">
+      <h3>Наполнение</h3>
+      <div class="hint" style="margin-bottom:12px;">
+        Нажмите на секцию в 3D-модели, чтобы добавить полки, штанги или корзины. Тяните элементы вверх/вниз для изменения высоты.
+      </div>
+      <div id="secPanel"></div>
+      <button class="btn btn-secondary" onclick="goStep(0)">← Назад</button>
+      <button class="btn btn-primary" onclick="goStep(2)">Далее: Оформление →</button>
+    </div>
+
+    <div class="panel-section" data-step="2">
+      <h3>Оформление</h3>
+      <div class="group">
+        <label>Цвет стен</label>
+        <div class="chips">
+          <button class="active">Светлые</button>
+          <button>Тёмные</button>
+          <button>Бетон</button>
+        </div>
+      </div>
+      <div class="group">
+        <label>Пол</label>
+        <div class="chips">
+          <button class="active">Дуб</button>
+          <button>Ламинат</button>
+          <button>Бетон</button>
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="goStep(1)">← Назад</button>
+      <button class="btn btn-primary" onclick="goStep(3)">Далее: Готово →</button>
+    </div>
+
+    <div class="panel-section" data-step="3">
+      <h3>Готово</h3>
+      <div class="hint">Конфигурация готова. Можно сохранить, сделать снимок или получить спецификацию.</div>
+      <button class="btn btn-primary" id="saveBtn">Сохранить проект</button>
+      <button class="btn btn-secondary" id="shareBtn">Скопировать ссылку</button>
+      <button class="btn btn-secondary" id="snapBtn">Красивый снимок</button>
+      <button class="btn btn-secondary" onclick="goStep(2)">← Назад</button>
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module" src="app.js"></script>
+<script>
+function goStep(n) {
+  document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.panel-section[data-step="${n}"]`).classList.add('active');
+  document.querySelectorAll('.stepper button').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.stepper button[data-step="${n}"]`).classList.add('active');
+}
+document.querySelectorAll('.stepper button').forEach(btn => {
+  btn.addEventListener('click', () => goStep(+btn.dataset.step));
+});
+function showMsg(text) {
+  const m = document.getElementById('msg');
+  m.textContent = text;
+  m.style.display = 'block';
+  setTimeout(() => m.style.display = 'none', 2500);
+}
+</script>
+</body>
+</html>

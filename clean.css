@@ -1,0 +1,12 @@
+/* Clean UI theme layer over the original v13h markup (garderob-clean) */
+body{font-family:Inter,system-ui,sans-serif}
+#panel{background:#fff;border-left:1px solid #e6e8ec;padding:16px}
+#panel h3{font-size:15px;font-weight:600;color:#1a1f26;margin:4px 0 10px}
+#panel details{border:1px solid #eceef2;border-radius:12px;padding:8px 12px;margin:8px 0;background:#fafbfc}
+#panel button{border-radius:8px}
+#stepper{background:#fff;border:1px solid #e6e8ec;border-radius:999px;padding:4px;gap:2px;margin:0 0 12px;top:-16px}
+#stepper button{border:0;background:transparent;color:#6b7686;border-radius:999px;font-weight:500}
+#stepper button.on{background:#3b82f6!important;color:#fff!important}
+#stepper b{background:#eef1f5;color:#6b7686}
+#stepper button.on b{background:#fff;color:#3b82f6}
+.next button{background:#3b82f6;color:#fff;border:0;border-radius:10px;font-weight:600}

@@ -1,0 +1,1 @@
+tex/chrome_sheet.jpg: from 'Clementine - Texture Brushed Metal by meiastar.jpg', Wikimedia Commons, Public domain. Rotated, resized, levels lifted.
